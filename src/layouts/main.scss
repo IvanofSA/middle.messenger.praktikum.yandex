@@ -1,0 +1,107 @@
+@import "src/utils/normalize.scss";
+
+/*Todo вынести переменный в отдельный фаил*/
+
+/*Тут если есть возможность подскажите по структуре. Где правильно хранить общие стили и скрипты для всех страниц*/
+
+/*common*/
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1;
+}
+.main {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-flow: column wrap;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+.wrapper {
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.btn {
+    cursor: pointer;
+    width: max-content;
+    min-width: 280px;
+    height: 37px;
+    margin-bottom: 14px;
+    background-color: #3369f3;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 13px;
+
+    text-align: center;
+
+    color: #FFFFFF;
+    transition: .2s;
+
+    &:hover, &:focus {
+        background-color: #3353f3;
+    }
+}
+
+.link {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 11px;
+    color: #3369F3;
+
+    &_red {
+        color: #FF0000;
+    }
+
+    &:hover, &:focus {
+        text-decoration: underline;
+    }
+}
+
+.back {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    width: 64px;
+    border-right: 1px solid #EAEAEA;
+    background: #FBFBFB;
+    cursor: pointer;
+
+    &:hover {
+        &:before {
+            animation: moveLeft 1s linear infinite;
+        }
+    }
+
+    &:before {
+        content: '';
+        display: flex;
+        margin: auto;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #3369F3 url("data:image/svg+xml,%3Csvg width='13' height='12' viewBox='0 0 13 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='13' y='6.80005' width='11' height='1.6' transform='rotate(-180 13 6.80005)' fill='white'/%3E%3Cpath d='M6 11L2 6L6 1' stroke='white' stroke-width='1.6'/%3E%3C/svg%3E%0A") no-repeat center;
+        background-size: 13px 12px;
+    }
+}
+
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

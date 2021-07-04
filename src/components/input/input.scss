@@ -1,0 +1,88 @@
+.input-component {
+  position: relative;
+  display: flex;
+  flex-flow: column-reverse;
+
+  margin-bottom: 24px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__input {
+    position: relative;
+    z-index: 5;
+    display: block;
+    width: 100%;
+    padding: 7px 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid #3369F3;
+    font-size: 13px;
+    line-height: 13px;
+    color: #1E1E1E;
+    transition: all 0.2s;
+    touch-action: manipulation;
+    -webkit-appearance: none;
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      -webkit-text-fill-color: #1E1E1E !important;
+      border-bottom: 1px solid #3369F3;
+    }
+
+    &::-webkit-input-placeholder {
+      opacity: 0;
+      transition: inherit;
+    }
+
+    &:focus::-webkit-input-placeholder {
+      opacity: 1;
+    }
+
+    &:placeholder-shown + .input-component__label {
+
+      transform: translate(0, 23px) scale(1);
+    }
+
+    &:not(:placeholder-shown) + .input-component__label,
+    &:focus + .input-component__label {
+      transform: translate(0, 0) scale(0.75);
+      cursor: pointer;
+    }
+  }
+
+  &__message {
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    font-size: 8px;
+    line-height: 8px;
+    color: #FF2F2F;
+    transition: .2s;
+
+    &.hide {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+
+  &__label {
+    cursor: text;
+    max-width: 66.66%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform-origin: left bottom;
+    text-align: left;
+    font-size: 13px;
+    line-height: 13px;
+    color: #999999;
+    transition: all 0.2s;
+    touch-action: manipulation;
+  }
+}
