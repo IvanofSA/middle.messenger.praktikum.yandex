@@ -4,7 +4,7 @@
   "description": "Web chat",
   "scripts": {
     "server": "node server.js",
-    "start": "parcel src/*.pug  --port 3000 --open",
+    "start": "parcel src/*.pug  --port 3000 --open && npm run server",
     "build": "parcel build src/index.pug"
   },
   "keywords": [],
