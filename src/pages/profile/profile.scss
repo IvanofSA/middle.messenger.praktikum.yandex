@@ -8,57 +8,8 @@
     width: 100%;
   }
 
-  &__inputs-box {
-    flex: 1;
-  }
-
-  &__field {
-    position: relative;
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    grid-column-gap: 20px;
-    align-content: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #EAEAEA;
-  }
-
-  &__button {
-    margin: 0 auto;
-  }
-
-  &__label {
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 13px;
-    color: var(--color-dark);;
-  }
-
-  &__input {
-    display: block;
-    width: 100%;
-
-    background: transparent;
-    font-size: 13px;
-    line-height: 13px;
-    color: var(--color-dark-gray);
-    transition: all var(--transition-faster) var(--cubic-ease-in-out);
-    touch-action: manipulation;
-    -webkit-appearance: none;
-    text-align: right;
-
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus,
-    &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
-      -webkit-text-fill-color: var(--color-dark) !important;
-    }
-
-    &::-webkit-input-placeholder {
-      opacity: 0;
-      transition: inherit;
-    }
+  &__avatar {
+    margin-bottom: 60px;
   }
 
   &__form {
@@ -66,39 +17,27 @@
     flex-flow: column wrap;
     justify-content: space-between;
     flex: 1;
+    margin-bottom: 60px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__link {
+    margin-bottom: 10px;
     padding: 10px 0;
-    border-bottom: 1px solid #EAEAEA;
+    border-bottom: 1px solid var(--color-light-gray);
+    font-size: 13px;
+    line-height: 13px;
 
     &:last-of-type {
+      margin-bottom: 0;
       border-bottom: 0;
     }
   }
-}
 
-.avatar-component {
-  display: flex;
-  flex-flow: column wrap;
-  align-content: center;
-  margin-bottom: 60px;
-
-  &__img {
-    width: 130px;
-    height: 130px;
-    margin-bottom: 21px;
-    overflow: hidden;
-    border-radius: 50%;
-    background: var(--color-light-gray) url('../../../static/images/avatar-placeholder.svg') no-repeat center;
-    background-size: 40px 40px;
-  }
-
-  &__name {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 16px;
-    color: var(--color-dark);;
-    text-align: center;
+  &__button {
+    margin: 0 auto;
   }
 }

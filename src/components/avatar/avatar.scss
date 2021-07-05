@@ -2,7 +2,6 @@
   display: flex;
   flex-flow: column wrap;
   align-content: center;
-  margin-bottom: 60px;
 
   &__img {
     width: 130px;
@@ -10,7 +9,7 @@
     margin-bottom: 21px;
     overflow: hidden;
     border-radius: 50%;
-    background: #EFEFEF url('../../../static/images/avatar-placeholder.svg') no-repeat center;
+    background: var(--color-light-gray) url('../../../static/images/avatar-placeholder.svg') no-repeat center;
     background-size: 40px 40px;
   }
 

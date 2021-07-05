@@ -1,10 +1,10 @@
 import "./home.scss";
-import pug from 'pug';
-import { inputComponent } from '../../components/input';
+import { createInputs } from "../../utils/createInputs";
 
 const inputsBox = document.querySelector( '.js-inputs-box' );
 const dataInputs = [
     {
+        theme: 'login',
         label: 'Логин',
         id: 'email',
         placeholder: 'Введите email',
@@ -15,6 +15,7 @@ const dataInputs = [
         error: 'Ошибка'
     },
     {
+        theme: 'login',
         label: 'Пароль',
         id: 'password',
         placeholder: 'Введите пароль',
@@ -26,12 +27,4 @@ const dataInputs = [
     },
 ];
 
-const createInputs = ( inputs ) => {
-    let temp = '';
-    inputs.forEach(input => {
-        temp += `${pug.render(inputComponent(input))}`
-    })
-    return temp;
-}
-
-inputsBox.innerHTML = pug.render(createInputs( dataInputs ));
+inputsBox.innerHTML = createInputs( dataInputs );
