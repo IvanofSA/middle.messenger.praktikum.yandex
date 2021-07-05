@@ -2,10 +2,11 @@ import "./home.scss";
 import pug from 'pug';
 import { inputComponent } from '../../components/input';
 
-const inputsBox = document.querySelector( '.js-inputsbox' );
+const inputsBox = document.querySelector( '.js-inputs-box' );
 const dataInputs = [
     {
         label: 'Почта',
+        id: 'email',
         placeholder: 'Введите email',
         name: 'email',
         type: 'email',
@@ -15,6 +16,7 @@ const dataInputs = [
     },
     {
         label: 'Логин',
+        id: 'login',
         placeholder: 'Введите логин',
         name: 'login',
         type: 'text',
@@ -24,6 +26,7 @@ const dataInputs = [
     },
     {
         label: 'Имя',
+        id: 'name',
         placeholder: 'Введите Имя',
         name: 'name',
         type: 'text',
@@ -33,6 +36,7 @@ const dataInputs = [
     },
     {
         label: 'Фамилия',
+        id: 'secondName',
         placeholder: 'Введите Фамилия',
         name: 'secondName',
         type: 'text',
@@ -42,6 +46,7 @@ const dataInputs = [
     },
     {
         label: 'Телефон',
+        id: 'phone',
         placeholder: 'Введите Телефон',
         name: 'phone',
         type: 'tel',
@@ -51,6 +56,7 @@ const dataInputs = [
     },
     {
         label: 'Пароль',
+        id: 'password',
         placeholder: 'Введите пароль',
         name: 'password',
         type: 'password',
@@ -60,6 +66,7 @@ const dataInputs = [
     },
     {
         label: 'Пароль (ещё раз)',
+        id: 'repassword',
         placeholder: 'Введите пароль',
         name: 'repassword',
         type: 'password',

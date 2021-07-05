@@ -2,10 +2,11 @@ import "./home.scss";
 import pug from 'pug';
 import { inputComponent } from '../../components/input';
 
-const inputsBox = document.querySelector( '.js-inputsbox' );
+const inputsBox = document.querySelector( '.js-inputs-box' );
 const dataInputs = [
     {
         label: 'Логин',
+        id: 'email',
         placeholder: 'Введите email',
         name: 'email',
         type: 'email',
@@ -15,6 +16,7 @@ const dataInputs = [
     },
     {
         label: 'Пароль',
+        id: 'password',
         placeholder: 'Введите пароль',
         name: 'password',
         type: 'password',
