@@ -1,0 +1,27 @@
+.form {
+  display: flex;
+  flex-flow: column wrap;
+  width: 340px;
+  min-height: 450px;
+  padding: 50px 30px 30px;
+  background: var(--color-white);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  text-align: center;
+
+  &__inputs-box {
+    flex: 1;
+    margin-bottom: 50px;
+  }
+
+  &__title {
+    margin: 0 0 40px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: var(--color-dark);
+  }
+
+}
+
+

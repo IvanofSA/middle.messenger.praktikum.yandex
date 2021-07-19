@@ -1,0 +1,10 @@
+extends ../../layouts/main
+
+block append title
+    title 'Error page'
+block content
+    main.main.error
+        h1.error__title 500
+        p.error__description Мы уже фиксим
+        a.error__link.link(href="#") Назад к чатам
+    script(src="./error500.js")

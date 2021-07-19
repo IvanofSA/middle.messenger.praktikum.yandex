@@ -1,0 +1,14 @@
+:root {
+  --cubic-ease-out: cubic-bezier(0.215, 0.61, 0.355, 1); //default
+  --cubic-ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --cubic-ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  --transition-slowest: 1s;
+  --transition-slower: 0.7s;
+  --transition-slow: 0.5s;
+  --transition-standart: 0.35s;
+  --transition-medium: 0.3s;
+  --transition-fast: 0.25s;
+  --transition-faster: 0.2s;
+  --transition-fastest: 0.15s;
+}

@@ -1,0 +1,13 @@
+extends ../../layouts/main
+
+block append title
+    title 'Profile edit page'
+block content
+    main.main.profile
+        .profile__container
+            .profile__avatar.js-avatar-container
+            form.profile__form
+                .profile__inputs-box.js-inputs-box
+                button.btn.profile__button Сохранить
+        .profile__back.back
+    script(src="./profileEdit.js")
