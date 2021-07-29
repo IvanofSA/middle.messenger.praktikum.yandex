@@ -58,8 +58,8 @@ fieldset {
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -73,9 +73,9 @@ video {
 }
 
 img {
-@supports (content-visibility: auto) {
-  content-visibility: auto;
-}
+  @supports (content-visibility: auto) {
+    content-visibility: auto;
+  }
 }
 
 iframe {
