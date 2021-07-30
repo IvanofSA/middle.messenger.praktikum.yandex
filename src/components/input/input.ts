@@ -10,8 +10,6 @@ const template: string = `
    span.input-component__message=error`;
 
 export default class Input extends Block {
-  _formElement: HTMLFormElement;
-  _node: HTMLInputElement;
   constructor(props: InputModel) {
     const events = {
       blur: {
