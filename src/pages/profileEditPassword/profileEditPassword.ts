@@ -5,13 +5,13 @@ import { multiValidate } from "../../utils/validate";
 
 const template: string = `
 .profile__avatar
-    #profileAvatar
+  #profileAvatar  
 form.profile__form(name="profileEditPassword")
-    .profile__inputs-box
-        #password
-        #newPassword
-        #repeatPassword
-    #button`;
+  .profile__inputs-box
+    #password
+    #newPassword
+    #repeatPassword
+  #button`;
 
 export default class ProfileEditPassword extends Block {
   constructor(props: PageModel) {
@@ -24,10 +24,8 @@ export default class ProfileEditPassword extends Block {
 
           if (isValid) {
             const data = new FormData(e.target);
-            console.log(data, "data signin");
+            console.log(data, "data ProfileEditPassword");
           }
-
-          console.log(this);
         },
       },
     };

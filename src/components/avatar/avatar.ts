@@ -5,11 +5,10 @@ import AvatarModel from "./avatar.model";
 
 const template: string = `
 .avatar-component
-    .avatar-component__img
-        img(src=src)
-    if text
-        .avatar-component__name= text    
-`;
+  .avatar-component__img
+    img(src=src)
+  if text
+    .avatar-component__name= text`;
 
 export default class Button extends Block {
   constructor(props: AvatarModel) {

@@ -3,13 +3,13 @@ import Block from "../../utils/Block";
 import "./message.scss";
 import MessageModel from "./message.model";
 
-const template = `
+const template: string = `
 .message(class='message_'+ position)
-    p.message__text= message
-    .message__info
-        if status === 'check'
-            span.message__status
-        span.message__time= time`;
+  p.message__text= message
+  .message__info
+    if status === 'check'
+      span.message__status
+    span.message__time= time`;
 
 export default class Message extends Block {
   constructor(props: MessageModel) {

@@ -4,14 +4,14 @@ import PageModel from "../../constans/page.model";
 
 const template: string = `
 .profile__avatar
-    #profileAvatar
+  #profileAvatar
 form.profile__form
-    .profile__inputs-box
-        #email
-        #loginField
-        #firstName
-        #secondName
-        #phone
+  .profile__inputs-box
+    #email
+    #loginField
+    #firstName
+    #secondName
+    #phone
 #changeDataLink
 #changePasswordLink
 #exitLink`;

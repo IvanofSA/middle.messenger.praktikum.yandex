@@ -5,16 +5,16 @@ import { multiValidate } from "../../utils/validate";
 
 const template: string = `
 form.form.login-page__form
-    h1.form__title= title
-    .form__inputs-box
-      #email
-      #name
-      #secondName
-      #phone
-      #password
-      #repeatPassword
-    #button    
-    #link`;
+  h1.form__title= title
+  .form__inputs-box
+    #email
+    #name
+    #secondName
+    #phone
+    #password
+    #repeatPassword
+  #button    
+  #link`;
 
 export default class SignUp extends Block {
   constructor(props: PageModel) {
@@ -23,7 +23,7 @@ export default class SignUp extends Block {
         tagEvent: "form",
         callback: (e) => {
           e.preventDefault();
-          const isValid = multiValidate(e.target, "normal");
+          const isValid = multiValidate(e.target, "signup");
           if (!isValid) {
             const data = new FormData(e.target);
             console.log(data, "data signup");

@@ -6,15 +6,15 @@ import { Avatar } from "../avatar";
 
 const template: string = `
 .channel
-    if avatarSrc
-        .channel__avatar
-            #avatar
-    span.channel__name= name
-    if lastMessage
-        span.channel__message= lastMessage
-    span.channel__time= time
-    if missed
-        span.channel__missed= missed`;
+  if avatarSrc
+    .channel__avatar
+      #avatar
+  span.channel__name= name
+  if lastMessage
+    span.channel__message= lastMessage
+  span.channel__time= time
+  if missed
+    span.channel__missed= missed`;
 
 export default class Channel extends Block {
   constructor(props: ChannelModel) {
