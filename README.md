@@ -11,4 +11,4 @@ npm run start — запуск версии для разработчика,
 npm run build — сборка стабильной версии.
 npm run server — запуск express.
 
-sprint_1: https://github.com/IvanofSA/middle.messenger.praktikum.yandex/pull/1
+sprint_2: https://github.com/IvanofSA/middle.messenger.praktikum.yandex/pull/2
