@@ -1,5 +1,5 @@
 import { compile } from "pug";
-import Block from "../../utils/block";
+import Block from "../../utils/Block";
 import PageModel from "../../constans/page.model";
 
 const template: string = `
