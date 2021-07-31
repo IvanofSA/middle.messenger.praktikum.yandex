@@ -4,19 +4,7 @@ import { Button } from "../../components/button";
 import ProfileEditPassword from "./profileEditPassword";
 import { Avatar } from "../../components/avatar";
 
-const template: string = `
-.profile__avatar
-    #profileAvatar
-form.profile__form
-    .profile__inputs-box
-        #password
-        #newPassword
-        #repeatPassword
-    #button`;
-
-/* eslint-disable no-new */
-new ProfileEditPassword({
-  template,
+const profileEditPassword = new ProfileEditPassword({
   children: {
     password: new Input({
       theme: "profile",
@@ -43,9 +31,9 @@ new ProfileEditPassword({
     repeatPassword: new Input({
       theme: "profile",
       label: "Повторите новый пароль",
-      id: "repassword",
+      id: "passwordRepeat",
       placeholder: "Повторите новый пароль",
-      name: "repassword",
+      name: "passwordRepeat",
       type: "password",
       value: "",
       disabled: false,
@@ -64,3 +52,6 @@ new ProfileEditPassword({
     }).getContent(),
   },
 });
+
+const element = document.getElementById("profileEditPassword");
+element?.appendChild(profileEditPassword.getContent());

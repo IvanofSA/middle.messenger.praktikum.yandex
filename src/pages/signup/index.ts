@@ -4,22 +4,8 @@ import { Link } from "../../components/link";
 import { Button } from "../../components/button";
 import SignUp from "./signup";
 
-const template: string = `
-form.form.login-page__form
-    h1.form__title= title
-    .form__inputs-box
-      #email
-      #firstName
-      #secondName
-      #phone
-      #password
-      #repeatPassword
-    #button    
-    #link`;
-/* eslint-disable no-new */
-new SignUp({
+const signUp = new SignUp({
   title: "Регистрация",
-  template,
   children: {
     email: new Input({
       theme: "login",
@@ -32,7 +18,7 @@ new SignUp({
       disabled: false,
       error: "Ошибка",
     }).getContent(),
-    firstName: new Input({
+    name: new Input({
       theme: "login",
       label: "Имя",
       id: "name",
@@ -79,9 +65,9 @@ new SignUp({
     repeatPassword: new Input({
       theme: "login",
       label: "Пароль (ещё раз)",
-      id: "repassword",
+      id: "repeatPassword",
       placeholder: "Введите пароль",
-      name: "repassword",
+      name: "repeatPassword",
       type: "password",
       value: "",
       disabled: false,
@@ -89,14 +75,17 @@ new SignUp({
     }).getContent(),
     link: new Link({
       text: "Войти",
-      className: "form__link",
+      classNames: ["form__link"],
       href: "#",
     }).getContent(),
     button: new Button({
       text: "Зарегистрироваться",
-      className: "form__enter",
+      classNames: ["form__enter"],
       type: "submit",
       disabled: false,
     }).getContent(),
   },
 });
+
+const element = document.getElementById("reg");
+element?.appendChild(signUp.getContent());

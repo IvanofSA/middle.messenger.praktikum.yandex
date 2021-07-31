@@ -4,22 +4,12 @@ import { Link } from "../../components/link";
 import { Button } from "../../components/button";
 import SignIn from "./signin";
 
-const template: string = `
-form.form.login-page__form
-    h1.form__title= title
-    .form__inputs-box
-      #email
-      #password
-    #button    
-    #link`;
-/* eslint-disable no-new */
-new SignIn({
-  title: "Вход2",
-  template,
+const signIn = new SignIn({
+  title: "Вход",
   children: {
     email: new Input({
       theme: "login",
-      label: "Логин",
+      label: "Email",
       id: "email",
       placeholder: "Введите email",
       name: "email",
@@ -41,14 +31,17 @@ new SignIn({
     }).getContent(),
     link: new Link({
       text: "Нет аккаунта?",
-      className: "form__link",
+      classNames: ["form__link"],
       href: "#",
     }).getContent(),
     button: new Button({
       text: "Авторизоваться",
-      className: "form__enter",
+      classNames: ["form__enter"],
       type: "submit",
       disabled: false,
     }).getContent(),
   },
 });
+
+const element = document.getElementById("login");
+element?.appendChild(signIn.getContent());

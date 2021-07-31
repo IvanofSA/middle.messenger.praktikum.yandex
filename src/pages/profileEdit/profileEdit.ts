@@ -1,16 +1,27 @@
 import { compile } from "pug";
 import Block from "../../utils/block";
-import ProfileEditModel from "./profileEdit.model";
-import {getData} from "../../utils/getData";
+import PageModel from "../../constans/page.model";
+
+const template: string = `
+.profile__avatar
+    #profileAvatar
+form.profile__form
+    .profile__inputs-box
+        #email
+        #loginField
+        #firstName
+        #secondName
+        #phone
+    #button`;
 
 export default class ProfileEdit extends Block {
-  constructor(props: ProfileEditModel) {
+  constructor(props: PageModel) {
     const events = {
       submit: {
         tagEvent: "form",
         callback: (e) => {
           e.preventDefault();
-          const data = getData(e.target);
+          const data = new FormData(e.target);
           console.log(data);
         },
       },
@@ -23,14 +34,7 @@ export default class ProfileEdit extends Block {
     });
   }
 
-  componentDidMount(): HTMLElement {
-    const element = document.getElementById("profileEdit");
-    element?.appendChild(this.getContent());
-    return element as HTMLElement;
-  }
-
   render(): string {
-    const { template } = this.props;
     return compile(template)(this.props);
   }
 }

@@ -4,21 +4,7 @@ import { Button } from "../../components/button";
 import ProfileEdit from "./profileEdit";
 import { Avatar } from "../../components/avatar";
 
-const template: string = `
-.profile__avatar
-    #profileAvatar
-form.profile__form
-    .profile__inputs-box
-        #email
-        #loginField
-        #firstName
-        #secondName
-        #phone
-    #button`;
-
-/* eslint-disable no-new */
-new ProfileEdit({
-  template,
+const profileEdit = new ProfileEdit({
   children: {
     email: new Input({
       theme: "profile",
@@ -88,3 +74,6 @@ new ProfileEdit({
     }).getContent(),
   },
 });
+
+const element = document.getElementById("profileEdit");
+element?.appendChild(profileEdit.getContent());

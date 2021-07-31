@@ -9,3 +9,5 @@ npm run start — запуск версии для разработчика,
 npm run build — сборка стабильной версии.
 npm run server — запуск express.
 npm run lint — запуск линтеров
+
+sprint_2: https://github.com/IvanofSA/middle.messenger.praktikum.yandex/pull/2

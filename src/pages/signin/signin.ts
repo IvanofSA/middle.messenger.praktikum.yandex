@@ -1,17 +1,29 @@
 import { compile } from "pug";
 import Block from "../../utils/block";
-import SignInModel from "./signin.model";
-import {getData} from "../../utils/getData";
+import PageModel from "../../constans/page.model";
+import { multiValidate } from "../../utils/validate";
+
+const template: string = `
+form.form.login-page__form
+    h1.form__title= title
+    .form__inputs-box
+      #email
+      #password
+    #button    
+    #link`;
 
 export default class SignIn extends Block {
-  constructor(props: SignInModel) {
+  constructor(props: PageModel) {
     const events = {
       submit: {
         tagEvent: "form",
         callback: (e) => {
           e.preventDefault();
-          const data = getData(e.target);
-          console.log(data);
+          const isValid = multiValidate(e.target, "normal");
+          if (!isValid) {
+            const data = new FormData(e.target);
+            console.log(data, "data signin");
+          }
         },
       },
     };
@@ -23,14 +35,7 @@ export default class SignIn extends Block {
     });
   }
 
-  componentDidMount(): HTMLElement {
-    const element = document.getElementById("login");
-    element?.appendChild(this.getContent());
-    return element as HTMLElement;
-  }
-
   render(): string {
-    const { template } = this.props;
     return compile(template)(this.props);
   }
 }

@@ -17,15 +17,15 @@ export default class Input extends Block {
         callback: (e: Event) => {
           const element = e.target as HTMLInputElement;
           this.props.value = element.value;
-          const validateResult = validation(element.value, element.type);
-
-          if (validateResult) {
+          const { messageError, value } = validation(element);
+          if (value) {
             this.setProps({
               status: "success",
             });
           } else {
             this.setProps({
               status: "error",
+              error: messageError,
             });
           }
         },

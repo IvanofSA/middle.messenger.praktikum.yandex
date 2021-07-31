@@ -1,6 +1,6 @@
 import EventBus from "./eventBus";
 type Props = {
-  children?: { [key: string]: HTMLElement };
+  children?: object;
   tagName?: string;
   classNames?: Array<string>;
   attribute?: Record<string, string>;

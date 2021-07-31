@@ -14,8 +14,12 @@ export class HTTPTransport {
     DELETE: "DELETE",
   };
 
-  get = (url: string, options: Options = {}) =>
+  get = (url: string, options: Options = {}) => {
+    const { data } = options;
+    const queryString = this.queryStringify(data);
+    url += queryString;
     this.request(url, HTTPTransport.METHODS.GET, options);
+  };
 
   put = (url: string, options: Options = {}) =>
     this.request(url, HTTPTransport.METHODS.PUT, options);
@@ -45,10 +49,6 @@ export class HTTPTransport {
   ): RequestPromise =>
     new Promise((resolve, reject) => {
       const { data, headers } = options;
-      if (method === HTTPTransport.METHODS.GET) {
-        const queryString = this.queryStringify(data);
-        url += queryString;
-      }
 
       const xhr = new XMLHttpRequest();
       if (headers) {
