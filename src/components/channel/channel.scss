@@ -1,0 +1,62 @@
+.channel {
+  display: grid;
+  grid-template-areas:
+    "avatar name time"
+    "avatar message missed";
+  grid-template-columns: 45px 1fr 30px;
+  grid-gap: 10px;
+  width: 100%;
+  margin: 2px 0;
+  padding: 12px 10px;
+  cursor: pointer;
+
+  &.active {
+    background-color: var(--color-light-blue);
+  }
+
+  &__avatar {
+    grid-area: avatar;
+    width: 47px;
+    height: 47px;
+  }
+
+  &__name {
+    grid-area: name;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 13px;
+    color: var(--color-dark);
+  }
+
+  &__message {
+    grid-area: message;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--color-dark-gray);
+  }
+
+  &__time {
+    grid-area: time;
+    font-weight: 500;
+    font-size: 9px;
+    line-height: 13px;
+    color: var(--color-dark-gray);
+  }
+
+  &__missed {
+    grid-area: missed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 12px;
+  }
+}

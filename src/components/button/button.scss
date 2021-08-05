@@ -1,0 +1,19 @@
+.button {
+  cursor: pointer;
+  width: max-content;
+  min-width: 280px;
+  height: 37px;
+  margin-bottom: 14px;
+  background-color: var(--color-blue);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 13px;
+  text-align: center;
+  color: var(--color-white);
+  transition: var(--transition-faster) var(--cubic-ease-in-out);
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-blue);
+  }
+}

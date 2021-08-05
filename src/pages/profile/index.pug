@@ -3,13 +3,5 @@ extends ../../layouts/main
 block append title
     title 'Profile page'
 block content
-    main.main.profile
-        .profile__container
-            .profile__avatar.js-avatar-container
-            form.profile__form
-                .profile__inputs-box.js-inputs-box
-            a.link.profile__link(href="#") Изменить данные
-            a.link.profile__link(href="#") Изменить пароль
-            a.link.link_red.profile__link(href="#") Выйти
-        .profile__back.back
-    script(src="./profile.js")
+    main#profile.main.profile
+    script(src="./index.ts")
