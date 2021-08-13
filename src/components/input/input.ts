@@ -13,6 +13,7 @@ export default class Input extends Block {
   constructor(props: InputModel) {
     const events = {
       blur: {
+        eventName: "blur",
         tagEvent: "input",
         callback: (e: Event) => {
           const element = e.target as HTMLInputElement;
@@ -31,6 +32,7 @@ export default class Input extends Block {
         },
       },
       focus: {
+        eventName: "focus",
         tagEvent: "input",
         callback: () => {},
       },

@@ -26,6 +26,7 @@
 		"no-underscore-dangle": 0,
 		"no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
 		"max-params": [2, 4],
+		"camelcase": "off",
 		"prettier/prettier": ["error"]
 	}
 }

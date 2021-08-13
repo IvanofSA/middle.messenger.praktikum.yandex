@@ -1,20 +1,5 @@
 extends layouts/main
 
 block content
-  ul Ссылки на страницы
-    li
-      a(href='./pages/signin/index.pug') signin
-    li
-      a(href='./pages/signup/index.pug') signup
-    li
-      a(href='./pages/chat/index.pug') chats
-    li
-      a(href='./pages/profile/index.pug') profile
-    li
-      a(href='./pages/profileEdit/index.pug') profile edit
-    li
-      a(href='./pages/profileEditPassword/index.pug') profile edit password
-    li
-      a(href='./pages/error/error400.pug') error 400
-    li
-      a(href='./pages/error/error500.pug') error 500
+  div#app
+  script(src='./index.ts')

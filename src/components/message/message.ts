@@ -7,7 +7,7 @@ const template: string = `
 .message(class='message_'+ position)
   p.message__text= message
   .message__info
-    if status === 'check'
+    if status
       span.message__status
     span.message__time= time`;
 

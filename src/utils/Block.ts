@@ -100,7 +100,7 @@ export default abstract class Block {
     const { children, tagName } = this.props;
     this._element.innerHTML = block;
 
-    if (tagName === "template") {
+    if (Boolean(this._element.content) && tagName === "template") {
       this._element = this._element.content.cloneNode(true)
         .firstChild as HTMLElement;
     }
@@ -109,7 +109,7 @@ export default abstract class Block {
       Object.keys(children).forEach((key) => {
         const _id = `#${key}`;
         const template = this._element.querySelector(_id);
-        template?.replaceWith(children[key]);
+        template?.replaceWith(children[key].getContent());
       });
     }
 
@@ -126,10 +126,16 @@ export default abstract class Block {
 
   private _addEvents() {
     const { events = {} } = this.props;
-    Object.keys(events).forEach((eventName) => {
-      const { tagEvent, callback } = events[eventName];
-      const inputElement = this._element.querySelector(tagEvent);
-      inputElement?.addEventListener(eventName, callback);
+    Object.keys(events).forEach((name) => {
+      const { eventName, tagEvent, callback } = events[name];
+      const inputElement = this._element.querySelectorAll(tagEvent);
+      if (inputElement.length) {
+        inputElement.forEach((el) => {
+          el?.addEventListener(eventName, callback);
+        });
+      } else if (this._element.className.indexOf(tagEvent) !== -1) {
+        this._element.addEventListener(eventName, callback);
+      }
     });
   }
 
@@ -180,5 +186,15 @@ export default abstract class Block {
     }
 
     return el;
+  }
+
+  show(query: string) {
+    const root = document.querySelector(query);
+    root?.append(this.element);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+  }
+
+  hide() {
+    this.element?.remove();
   }
 }

@@ -1,4 +1,5 @@
 export default interface ChannelModel {
+  id?: string;
   name?: string;
   lastMessage?: string;
   time?: string;

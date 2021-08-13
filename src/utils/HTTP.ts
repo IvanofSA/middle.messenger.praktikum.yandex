@@ -1,78 +1,107 @@
-interface Options {
-  timeout?: number;
-  data?: any;
-  headers?: { [name: string]: string };
+enum METHODS {
+  GET = "GET",
+  PUT = "PUT",
+  POST = "POST",
+  DELETE = "DELETE",
 }
 
-type RequestPromise = Promise<XMLHttpRequest>;
+interface IOptions {
+  timeout?: number;
+  data?: { [key: string]: string } | any;
+  method?: METHODS;
+  headers?: { [name: string]: string };
+  withCredentials?: boolean;
+}
 
-export class HTTPTransport {
-  static METHODS = {
-    GET: "GET",
-    PUT: "PUT",
-    POST: "POST",
-    DELETE: "DELETE",
-  };
-
-  get = (url: string, options: Options = {}) => {
-    const { data } = options;
-    const queryString = this.queryStringify(data);
-    url += queryString;
-    this.request(url, HTTPTransport.METHODS.GET, options);
-  };
-
-  put = (url: string, options: Options = {}) =>
-    this.request(url, HTTPTransport.METHODS.PUT, options);
-
-  post = (url: string, options: Options = {}) =>
-    this.request(url, HTTPTransport.METHODS.POST, options);
-
-  delete = (url: string, options: Options = {}) =>
-    this.request(url, HTTPTransport.METHODS.DELETE, options);
-
-  queryStringify(data: { [key: string]: any }) {
-    const str = "?";
-    const params = [];
-
-    for (const [key, value] of Object.entries(data)) {
-      params.push(`${key}=${value}`);
-    }
-
-    return str + params.join("&");
+function queryStringify(data): string {
+  if (data === undefined || typeof data !== "object") {
+    throw new Error("error data");
   }
 
-  request = (
+  const str = "?";
+  const params = [];
+  for (const [key, value] of Object.entries(data)) {
+    params.push(`${key}=${value}`);
+  }
+
+  return str + params.join("&");
+}
+
+export default class HTTPTransport {
+  _host: string;
+  constructor(props: string) {
+    this._host = props;
+  }
+
+  get(url: string, options: IOptions = {}): Promise<XMLHttpRequest> {
+    return this.request(
+      `${this._host}${url}`,
+      { ...options, method: METHODS.GET },
+      options.timeout
+    );
+  }
+
+  post(url: string, options: IOptions = {}): Promise<XMLHttpRequest> {
+    return this.request(
+      `${this._host}${url}`,
+      { ...options, method: METHODS.POST },
+      options.timeout
+    );
+  }
+
+  put(url: string, options: IOptions = {}): Promise<XMLHttpRequest> {
+    return this.request(
+      `${this._host}${url}`,
+      { ...options, method: METHODS.PUT },
+      options.timeout
+    );
+  }
+
+  delete(url: string, options: IOptions = {}): Promise<XMLHttpRequest> {
+    return this.request(
+      `${this._host}${url}`,
+      { ...options, method: METHODS.DELETE },
+      options.timeout
+    );
+  }
+
+  request(
     url: string,
-    method: string,
-    options: Options,
-    timeout: number = 5000
-  ): RequestPromise =>
-    new Promise((resolve, reject) => {
-      const { data, headers } = options;
-
+    options: IOptions,
+    timeout = 5000
+  ): Promise<XMLHttpRequest> {
+    const { data, method = METHODS.GET, headers = {} } = options;
+    return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      if (headers) {
-        for (const [name, value] of Object.entries(headers)) {
-          xhr.setRequestHeader(name, value);
-        }
-      }
-
-      xhr.timeout = timeout;
-
-      xhr.open(method, url);
-
+      const isGet = method === METHODS.GET;
+      xhr.withCredentials = true;
+      xhr.open(
+        method,
+        isGet && Boolean(data) ? url + queryStringify(data) : url
+      );
       xhr.onload = function () {
-        resolve(xhr);
+        if (xhr.status === 200) {
+          console.log("tut", xhr.response);
+          resolve(xhr.response);
+        } else {
+          reject(new Error(xhr.status.toString()));
+        }
       };
 
+      xhr.timeout = timeout;
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;
 
-      if (!data || method === HTTPTransport.METHODS.GET) {
+      Object.keys(headers).forEach((key) => {
+        xhr.setRequestHeader(key, headers[key]);
+      });
+
+      if (isGet || !data) {
         xhr.send();
       } else {
         xhr.send(data);
       }
     });
+  }
 }

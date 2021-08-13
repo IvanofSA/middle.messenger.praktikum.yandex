@@ -1,7 +1,7 @@
 import { compile } from "pug";
 import Block from "../../utils/Block";
 import PageModel from "../../constans/page.model";
-import {multiValidate} from "../../utils/validate";
+import { multiValidate } from "../../utils/validate";
 
 const template: string = `
 .profile__avatar
