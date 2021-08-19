@@ -34,6 +34,8 @@ export default class HTTPTransport {
   }
 
   get(url: string, options: IOptions = {}): Promise<XMLHttpRequest> {
+    const { data } = options;
+    url = data ? queryStringify(data) : url;
     return this.request(
       `${this._host}${url}`,
       { ...options, method: METHODS.GET },
@@ -75,14 +77,10 @@ export default class HTTPTransport {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
       xhr.withCredentials = true;
-      xhr.open(
-        method,
-        isGet && Boolean(data) ? url + queryStringify(data) : url
-      );
+      xhr.open(method, url);
       xhr.onload = function () {
         if (xhr.status === 200) {
-          console.log("tut", xhr.response);
-          resolve(xhr.response);
+          resolve(JSON.parse(xhr.response));
         } else {
           reject(new Error(xhr.status.toString()));
         }

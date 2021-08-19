@@ -1,8 +1,4 @@
-import HTTPTransport from "../utils/HTTP";
-
-const host = "https://ya-praktikum.tech/api/v2/auth";
-
-const authApi = new HTTPTransport(host);
+import BaseAPI from "./baseApi";
 
 type SignUpRequest = {
   first_name: string;
@@ -18,32 +14,34 @@ type SignInRequest = {
   password: string;
 };
 
-export default class AuthApi {
-  signUp(formData: SignUpRequest) {
+class AuthApi extends BaseAPI {
+  signUp(formData: SignUpRequest): Promise<object> {
     const options = {
       data: JSON.stringify(Object.fromEntries(formData)),
       headers: {
         "Content-Type": "application/json",
       },
     };
-    return authApi.post("/signup", options);
+    return this.http.post("/signup", options);
   }
 
-  signIn(formData: SignInRequest) {
+  signIn(formData: SignInRequest): Promise<object> {
     const options = {
       data: JSON.stringify(Object.fromEntries(formData)),
       headers: {
         "Content-Type": "application/json",
       },
     };
-    return authApi.post("/signin", options);
+    return this.http.post("/signin", options);
   }
 
-  getUserInfo() {
-    return authApi.get("/user");
+  getUserInfo(): Promise<object> {
+    return this.http.get("/user");
   }
 
-  logOut() {
-    return authApi.post("/logout");
+  logOut(): Promise<object> {
+    return this.http.post("/logout");
   }
 }
+
+export const authAPI = new AuthApi("/auth");

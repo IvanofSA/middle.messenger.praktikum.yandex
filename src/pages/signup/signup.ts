@@ -1,11 +1,12 @@
 import { compile } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import PageModel from "../../constans/page.model";
 import { multiValidate } from "../../utils/validate";
 import { Input } from "../../components/input";
 import { Link } from "../../components/link";
 import { Button } from "../../components/button";
-import AuthApi from "../../api/authApi";
+import { authAPI } from "../../api/authApi";
+import router from "../../index";
 
 const template: string = `
 .login__container
@@ -35,12 +36,10 @@ export default class SignUp extends Block {
           if (isValid) {
             const data = new FormData(e.target);
             data.delete("repeatPassword");
-            new AuthApi()
+            authAPI
               .signUp(data)
-              .then((result) => {
-                const userInfo = JSON.parse(result.response);
-                if (!userInfo.reason) {
-                }
+              .then(() => {
+                router.go("/messenger");
               })
               .catch((er) => {
                 console.error(er);

@@ -1,58 +1,55 @@
-import HTTPTransport from "../utils/HTTP";
-
-const host = "https://ya-praktikum.tech/api/v2/chats";
-
-const chatsApi = new HTTPTransport(host);
+import BaseAPI from "./baseApi";
 
 type createChat = {
   title: string;
 };
 
-export default class ChatsApi {
-  getChats() {
+class ChatsApi extends BaseAPI {
+  getChats(): Promise<object> {
     const options = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    return chatsApi.get("/", options);
+    return this.http.get("/", options);
   }
 
-  createChat(formData: createChat) {
+  createChat(formData: createChat): Promise<object> {
     const options = {
       data: JSON.stringify(Object.fromEntries(formData)),
       headers: {
         "Content-Type": "application/json",
       },
     };
-    return chatsApi.post("/", options);
+    return this.http.post("/", options);
   }
 
-  getChatUsers(id: number) {
-    return chatsApi.get(`/${id}/users`);
+  getChatUsers(id: number): Promise<object> {
+    return this.http.get(`/${id}/users`);
   }
 
-  getChatUsersToken(id: number) {
-    return chatsApi.post(`/token/${id}`);
+  getChatUsersToken(id: number): Promise<object> {
+    return this.http.post(`/token/${id}`);
   }
 
-  addUsersChat(userId: number, chatId: number) {
+  addUsersChat(userId: number, chatId: number): Promise<object> {
     const options = {
-      data: JSON.stringify({ users: [userId], chatId }),
+      data: JSON.stringify({ usersIds: [userId], chatId }),
       headers: {
         "Content-Type": "application/json",
       },
     };
-    return chatsApi.put(`/users`, options);
+    return this.http.put(`/users`, options);
   }
 
-  deleteUsersChat(userId: number, chatId: number) {
+  deleteUsersChat(userId: number, chatId: number): Promise<object> {
     const options = {
-      data: JSON.stringify({ users: [userId], chatId }),
+      data: JSON.stringify({ usersIds: [userId], chatId }),
       headers: {
         "Content-Type": "application/json",
       },
     };
-    return chatsApi.delete(`/users`, options);
+    return this.http.delete(`/users`, options);
   }
 }
+export const chatsAPI = new ChatsApi("/chats");

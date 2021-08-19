@@ -1,4 +1,4 @@
-import Block from "../Block";
+import Block from "../Block/Block";
 
 export class Route {
   _pathname: string;
@@ -15,8 +15,6 @@ export class Route {
     this._blockClass = view;
     this._block = null;
     this._props = props;
-
-    console.log(this._props, "this._props");
   }
 
   navigate(pathname: string): void {

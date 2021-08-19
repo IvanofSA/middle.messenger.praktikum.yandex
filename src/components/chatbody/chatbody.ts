@@ -1,5 +1,5 @@
 import { render } from "pug";
-import Block from "../../utils/block";
+import Block from "../../utils/Block/Block";
 
 const template = `
 -   for (var i = 0; i < countMessages; i++)

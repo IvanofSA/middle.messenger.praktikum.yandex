@@ -1,11 +1,13 @@
 import { compile } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import PageModel from "../../constans/page.model";
 import { Input } from "../../components/input";
 import { Link } from "../../components/link";
+import { authAPI } from "../../api/authApi";
+import router from "../../index";
 
 const template: string = `
-form.profile__form
+form.profile__edit
   .profile__inputs-box
     #inputEmail
     #inputLogin
@@ -17,6 +19,7 @@ form.profile__form
 #exitLink`;
 
 export default class Profile extends Block {
+  type: string;
   constructor(props: PageModel) {
     const inputEmail = new Input({
       theme: "profile",
@@ -75,19 +78,30 @@ export default class Profile extends Block {
     });
     const changeDataLink = new Link({
       text: "Изменить данные",
-      classNames: ["profile__link"],
-      href: "#",
+      classNames: ["profile__link", "profile__link_edit"],
     });
     const changePasswordLink = new Link({
       text: "Изменить пароль",
-      classNames: ["profile__link"],
+      classNames: ["profile__link", "profile__link_passwords"],
       href: "#",
     });
     const exitLink = new Link({
       text: "Выйти",
-      classNames: ["profile__link", "link_red"],
+      classNames: ["profile__link", "profile__link_logout", "link_red"],
       href: "#",
     });
+
+    const events = {
+      logout: {
+        eventName: "click",
+        tagEvent: ".profile__link_logout",
+        callback: (e) => {
+          e.preventDefault();
+          authAPI.logOut();
+          router.go("/");
+        },
+      },
+    };
     super({
       tagName: "div",
       classNames: ["profile__form"],
@@ -102,7 +116,9 @@ export default class Profile extends Block {
         exitLink,
       },
       ...props,
+      events,
     });
+    this.type = "";
   }
 
   render(): string {

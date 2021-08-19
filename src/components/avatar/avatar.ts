@@ -1,6 +1,6 @@
 import { compile } from "pug";
 import "./avatar.scss";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import AvatarModel from "./avatar.model";
 
 const template: string = `

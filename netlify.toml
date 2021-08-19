@@ -8,8 +8,3 @@
 [build]
   publish = "dist"
   command = "npm run build"
-
-[[redirects]]
- from = "/api/*"
- to = "https://ya-praktikum.tech/:splat"
- status = 200

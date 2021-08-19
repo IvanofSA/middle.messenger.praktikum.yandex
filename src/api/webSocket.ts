@@ -1,7 +1,6 @@
 export default class WebSocketMessage {
   private socket: WebSocket;
-  static __instance: WebSocketMessage;
-  callBack: () => [];
+  callBack: (() => []) | undefined;
 
   constructor(
     userId?: string,
@@ -17,12 +16,6 @@ export default class WebSocketMessage {
       this._registerEvents();
     }
 
-    if (WebSocketMessage.__instance) {
-      this.callBack = callBack;
-      return WebSocketMessage.__instance;
-    }
-
-    WebSocketMessage.__instance = this;
     this.callBack = callBack;
   }
 
@@ -34,7 +27,6 @@ export default class WebSocketMessage {
   }
 
   open() {
-    console.log("Соединение установлено");
     this.socket.send(
       JSON.stringify({
         content: "0",
@@ -44,7 +36,6 @@ export default class WebSocketMessage {
   }
 
   send(message: string) {
-    console.log(message);
     this.socket.send(
       JSON.stringify({
         content: message,
@@ -55,7 +46,6 @@ export default class WebSocketMessage {
 
   message(event: Record<string, string>) {
     const data = JSON.parse(event.data);
-    console.log("Получены данные", data);
     return this.callBack(data);
   }
 

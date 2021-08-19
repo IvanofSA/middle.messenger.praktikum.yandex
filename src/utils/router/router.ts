@@ -1,4 +1,4 @@
-import Block from "../block";
+import Block from "../Block/Block";
 import { Route } from "../route/route";
 
 export class Router {
@@ -38,8 +38,7 @@ export class Router {
   _onRoute(pathname: string): void {
     const route = this.getRoute(pathname);
     if (!route) {
-      this.go("/404");
-      window.location.href = "/404";
+      return;
     }
 
     if (this._currentRoute) {
@@ -64,6 +63,6 @@ export class Router {
   }
 
   getRoute(pathname: string): Route {
-    return this.routes.find((route) => route.match(pathname));
+    return <Route>this.routes.find((route) => route.match(pathname));
   }
 }

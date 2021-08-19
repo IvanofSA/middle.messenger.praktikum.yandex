@@ -53,13 +53,15 @@ const validInputs = (inputs) => {
 
 const setErrors = (form, valids): void => {
   for (const key in valids) {
-    const parent = form[key].parentNode;
-    const message = parent.querySelector(".input-component__message");
-    if (valids[key].value) {
-      parent.classList.remove("error");
-    } else {
-      message.textContent = valids[key].messageError;
-      parent.classList.add("error");
+    if ({}.hasOwnProperty.call(valids, key)) {
+      const parent = form[key].parentNode;
+      const message = parent.querySelector(".input-component__message");
+      if (valids[key].value) {
+        parent.classList.remove("error");
+      } else {
+        message.textContent = valids[key].messageError;
+        parent.classList.add("error");
+      }
     }
   }
 };
@@ -75,15 +77,18 @@ const checkValid = (valids) => {
   return result;
 };
 
-export const multiValidate = (form: HTMLFormElement, page: string) => {
+export const multiValidate = (
+  form: HTMLFormElement,
+  page: string = "default"
+) => {
   const inputs = getInputs(form);
   let isValids = validInputs(inputs);
   switch (page) {
     case "passwords": {
-      const password: string = form.password.value;
+      const newPassword: string = form.newPassword.value;
       const passwordRepeat: string = form.passwordRepeat.value;
-      if (password && passwordRepeat) {
-        const error = checkPasswords(password, passwordRepeat);
+      if (newPassword && passwordRepeat) {
+        const error = checkPasswords(newPassword, passwordRepeat);
         isValids = {
           ...isValids,
           passwordRepeat: { value: error, messageError: "Пароли не совпадают" },

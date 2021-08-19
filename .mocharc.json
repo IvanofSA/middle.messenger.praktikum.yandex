@@ -1,5 +1,5 @@
 {
-    "extension": ["ts"],
-    "spec": "./src/**/*.test.ts",
-    "require": "test/babel-register.js"
-  }
+  "extension": ["ts"],
+  "spec": "./src/**/*.spec.ts",
+  "require": "test/babel-register.js"
+}

@@ -1,14 +1,14 @@
 import { render } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import PageModel from "../../constans/page.model";
 import { Button } from "../../components/button";
 import { Input } from "../../components/input";
 import { Avatar } from "../../components/avatar";
 import { Channel } from "../../components/channel";
 import { Message } from "../../components/message";
-import AuthApi from "../../api/authApi";
-import ChatsApi from "../../api/chatsApi";
-import UsersApi from "../../api/usersApi";
+import { authAPI } from "../../api/authApi";
+import { chatsAPI } from "../../api/chatsApi";
+import { usersAPI } from "../../api/usersApi";
 import { multiValidate } from "../../utils/validate";
 import ChannelList from "../../components/channelList";
 import ChatBody from "../../components/chatBody";
@@ -52,6 +52,7 @@ export default class Chats extends Block {
   userId: number | null;
   typeEventUser: string;
   tooltip: HTMLElement | null;
+  chats: [];
 
   constructor(props: PageModel) {
     const addChatInput = new Input({
@@ -77,23 +78,22 @@ export default class Chats extends Block {
           eventName: "click",
           tagEvent: ".channel",
           callback: (e: Event) => {
-            const id = Number(e.currentTarget.getAttribute("data-id"));
-            this.activeChat.id = id;
+            const id = Number(e.currentTarget.dataset.id);
             this.props.isShow = true;
-            new ChatsApi()
+            chatsAPI
               .getChatUsers(id)
-              .then((data) => {
-                const result = JSON.parse(data);
-                result.forEach((user) => {
+              .then((payload) => {
+                const users = payload;
+                users.forEach((user) => {
                   this.usersChat[`${user.id}`] = { ...user };
                 });
               })
               .then(() => this.getChatToken(id))
               .then(({ token }) => {
-                this.setHeaderChat();
+                this.setHeaderChat(id);
                 new WebSocketMessage(
                   this.userId,
-                  this.activeChat.id,
+                  id,
                   token,
                   this.createMessageList.bind(this)
                 );
@@ -111,12 +111,11 @@ export default class Chats extends Block {
           eventName: "click",
           tagEvent: ".messages__btn",
           callback: (e) => {
-            /* Todo тут в попыхах делал по хорошему в отдельный компонент вынести и тултип и кнпоки */
-            this.typeEventUser = e.currentTarget.getAttribute("data-type");
+            this.typeEventUser = e.currentTarget.dataset.type;
             this.tooltip = e.currentTarget
               .closest(".messages__head")
               ?.querySelector(".messages__tooltip");
-            this.tooltip.classList.add("show");
+            this.tooltip?.classList.add("show");
           },
         },
         addUser: {
@@ -128,25 +127,34 @@ export default class Chats extends Block {
             const { value } = input;
             const { id } = this.activeChat;
             if (value.length > 0) {
-              new UsersApi().searchUser(value).then((data) => {
-                const result = JSON.parse(data);
-                switch (this.typeEventUser) {
-                  case "add":
-                    new ChatsApi().addUsersChat(result[0].id, id).then(() => {
-                      console.log("add user");
-                    });
-                    break;
-                  case "remove":
-                    new ChatsApi()
-                      .deleteUsersChat(result[0].id, id)
-                      .then(() => {
-                        console.log("remove user");
-                      });
-                    break;
-                  default:
-                    console.log("значение не выбрано");
-                }
-              });
+              usersAPI
+                .searchUser(value)
+                .then((payload) => {
+                  const users = payload;
+                  switch (this.typeEventUser) {
+                    case "add":
+                      chatsAPI
+                        .addUsersChat(users[0].id, id)
+                        .then()
+                        .catch((err) => {
+                          console.error(err);
+                        });
+                      break;
+                    case "remove":
+                      chatsAPI
+                        .deleteUsersChat(users[0].id, id)
+                        .then()
+                        .catch((err) => {
+                          console.error(err);
+                        });
+                      break;
+                    default:
+                      console.log("значение не выбрано");
+                  }
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
 
               this.tooltip?.classList.remove("show");
             }
@@ -160,9 +168,14 @@ export default class Chats extends Block {
             const isValid = multiValidate(e.target, "chats");
             if (isValid) {
               const data = new FormData(e.target);
-              new ChatsApi().createChat(data).then(() => {
-                this.getChats();
-              });
+              chatsAPI
+                .createChat(data)
+                .then(() => {
+                  this.getChats();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
             }
           },
         },
@@ -171,7 +184,6 @@ export default class Chats extends Block {
           tagEvent: ".home-page__form-search",
           callback: (e) => {
             e.preventDefault();
-            console.log("click add home-page__form-search");
           },
         },
         send: {
@@ -201,25 +213,27 @@ export default class Chats extends Block {
     this.activeChat = {};
     this.tooltip = null;
     this.userId = null;
+    this.chats = [];
     this.usersChat = {};
     this.socketMessage = [];
   }
 
   getChatToken(id: number) {
-    return new ChatsApi()
+    return chatsAPI
       .getChatUsersToken(id)
-      .then((data) => JSON.parse(data))
+      .then()
       .catch((err) => {
         console.error(err);
       });
   }
 
-  setHeaderChat() {
+  setHeaderChat(id: string) {
+    const chat = this.chats.filter((chat) => chat.id === id)[0];
     const { avatarHead } = this.props.children;
 
     avatarHead.setProps({
-      src: this.activeChat.avatar,
-      text: this.activeChat.title,
+      src: chat.avatar,
+      text: chat.title,
     });
   }
 
@@ -259,40 +273,47 @@ export default class Chats extends Block {
   }
 
   getChats() {
-    new ChatsApi().getChats().then((data) => {
-      const result = JSON.parse(data);
-      const channelCards = {};
-      result.forEach((channel, index) => {
-        this.activeChat = channel;
-        const { last_message, avatar, title, unread_count, time, id } = channel;
-        const date = new Date(time);
-
-        const channelConfig = {
-          id,
-          name: title,
-          lastMessage: last_message?.content,
-          time: `${date.getHours()}:${
-            date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-          }`,
-          missed: unread_count,
-          src: avatar,
-          text: title,
-        };
-        channelCards[`channelCard-${index}`] = new Channel(channelConfig);
+    chatsAPI
+      .getChats()
+      .then((payload) => {
+        const channels = payload;
+        this.chats = [...channels];
+        const channelCards = {};
+        channels.forEach((channel, index) => {
+          this.activeChat = channel;
+          const { last_message, avatar, title, unread_count, id } = channel;
+          const date = new Date(last_message?.time);
+          const channelConfig = {
+            id,
+            name: title,
+            lastMessage: last_message?.content,
+            time: `${date.getHours()}:${
+              date.getMinutes() < 10
+                ? "0" + date.getMinutes()
+                : date.getMinutes()
+            }`,
+            missed: unread_count,
+            src: avatar,
+            text: title,
+          };
+          channelCards[`channelCard-${index}`] = new Channel(channelConfig);
+        });
+        const { channelList } = this.props.children;
+        channelList.setProps({
+          children: { ...channelList.props.children, ...channelCards },
+          countChannels: channels.length,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
       });
-      const { channelList } = this.props.children;
-      channelList.setProps({
-        children: { ...channelList.props.children, ...channelCards },
-        countChannels: result.length,
-      });
-    });
   }
 
   componentDidMount() {
-    new AuthApi()
+    authAPI
       .getUserInfo()
-      .then((data) => {
-        const { id } = JSON.parse(data);
+      .then((payload) => {
+        const { id } = payload;
         this.userId = id;
         this.getChats();
       })

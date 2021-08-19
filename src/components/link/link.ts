@@ -1,5 +1,5 @@
 import { compile } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import "./link.scss";
 import LinkModel from "./link.model";
 

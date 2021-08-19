@@ -1,11 +1,11 @@
 import { compile } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import PageModel from "../../constans/page.model";
 import { multiValidate } from "../../utils/validate";
 import { Input } from "../../components/input";
 import { Link } from "../../components/link";
 import { Button } from "../../components/button";
-import AuthApi from "../../api/authApi";
+import { authAPI } from "../../api/authApi";
 import router from "../../index";
 
 const template: string = `
@@ -62,14 +62,13 @@ export default class SignIn extends Block {
           const isValid = multiValidate(e.target, "signin");
           if (isValid) {
             const data = new FormData(e.target);
-            new AuthApi()
+            authAPI
               .signIn(data)
-              .then((result) => {
-                // Const userInfo = JSON.parse(result.response);
+              .then(() => {
                 router.go("/messenger");
               })
-              .catch((er) => {
-                console.error(er);
+              .catch((err) => {
+                console.error(err);
               });
           }
         },

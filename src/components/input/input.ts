@@ -1,5 +1,5 @@
 import { compile } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import "./input.scss";
 import InputModel from "./input.model";
 import { validation } from "../../utils/validate";
