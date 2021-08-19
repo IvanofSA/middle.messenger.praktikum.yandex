@@ -11,7 +11,7 @@ import { chatsAPI } from "../../api/chatsApi";
 import { usersAPI } from "../../api/usersApi";
 import { multiValidate } from "../../utils/validate";
 import ChannelList from "../../components/channelList";
-import ChatBody from "../../components/chatBody";
+import ChatBody from "../../components/chatbody";
 import WebSocketMessage from "../../api/webSocket";
 
 const template: string = `
