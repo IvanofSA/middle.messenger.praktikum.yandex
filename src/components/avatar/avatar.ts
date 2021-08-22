@@ -9,12 +9,14 @@ const template: string = `
 if text
   .avatar-component__name= text`;
 
+const compileTemplate = compile(template);
+
 export default class Button extends Block {
   constructor(props: AvatarModel) {
     super({ tagName: "div", classNames: ["avatar-component"], ...props });
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

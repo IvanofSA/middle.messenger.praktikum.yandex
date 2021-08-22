@@ -18,6 +18,8 @@ const template: string = `
     #button    
     #link`;
 
+const compileTemplate = compile(template);
+
 export default class SignIn extends Block {
   constructor(props: PageModel) {
     const loginField = new Input({
@@ -89,6 +91,6 @@ export default class SignIn extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

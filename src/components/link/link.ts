@@ -4,6 +4,7 @@ import "./link.scss";
 import LinkModel from "./link.model";
 
 const template: string = `a.link(class=[classNames] href=href)= text`;
+const compileTemplate = compile(template);
 
 export default class Link extends Block {
   constructor(props: LinkModel) {
@@ -11,6 +12,6 @@ export default class Link extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

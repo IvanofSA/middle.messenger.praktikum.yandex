@@ -53,15 +53,13 @@ const validInputs = (inputs) => {
 
 const setErrors = (form, valids): void => {
   for (const key in valids) {
-    if ({}.hasOwnProperty.call(valids, key)) {
-      const parent = form[key].parentNode;
-      const message = parent.querySelector(".input-component__message");
-      if (valids[key].value) {
-        parent.classList.remove("error");
-      } else {
-        message.textContent = valids[key].messageError;
-        parent.classList.add("error");
-      }
+    const parent = form[key].parentNode;
+    const message = parent.querySelector(".input-component__message");
+    if (valids[key].value) {
+      parent.classList.remove("error");
+    } else {
+      message.textContent = valids[key].messageError;
+      parent.classList.add("error");
     }
   }
 };

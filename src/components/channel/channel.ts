@@ -15,6 +15,8 @@ const template: string = `
   if missed
     span.channel__missed= missed`;
 
+const compileTemplate = compile(template);
+
 export default class Channel extends Block {
   constructor(props: ChannelModel) {
     const { src } = props;
@@ -32,6 +34,6 @@ export default class Channel extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

@@ -7,6 +7,8 @@ h1.error__title 404
 p.error__description Не туда попали
 a.error__link.link(href="/messenger") Назад к чатам`;
 
+const compileTemplate = compile(template);
+
 export default class Page404 extends Block {
   constructor(props: PageModel) {
     super({
@@ -17,6 +19,6 @@ export default class Page404 extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

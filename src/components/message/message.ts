@@ -11,12 +11,14 @@ const template: string = `
       span.message__status
     span.message__time= time`;
 
+const compileTemplate = compile(template);
+
 export default class Message extends Block {
   constructor(props: MessageModel) {
     super({ tagName: "template", ...props });
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

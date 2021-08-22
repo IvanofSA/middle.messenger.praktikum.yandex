@@ -19,6 +19,8 @@ form.profile__form
   #button
 #backLink`;
 
+const compileTemplate = compile(template);
+
 export default class ProfileEdit extends Block {
   constructor(props: PageModel) {
     const inputEmail = new Input({
@@ -128,6 +130,6 @@ export default class ProfileEdit extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

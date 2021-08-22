@@ -9,6 +9,8 @@ const template: string = `
    label(for=id).input-component__label=label
    span.input-component__message=error`;
 
+const compileTemplate = compile(template);
+
 export default class Input extends Block {
   constructor(props: InputModel) {
     const events = {
@@ -46,6 +48,6 @@ export default class Input extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

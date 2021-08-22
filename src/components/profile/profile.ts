@@ -18,6 +18,8 @@ form.profile__edit
 #changePasswordLink
 #exitLink`;
 
+const compileTemplate = compile(template);
+
 export default class Profile extends Block {
   type: string;
   constructor(props: PageModel) {
@@ -122,6 +124,6 @@ export default class Profile extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

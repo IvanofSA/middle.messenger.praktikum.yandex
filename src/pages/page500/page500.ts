@@ -7,6 +7,8 @@ h1.error__title 500
 p.error__description Мы уже фиксим
 a.error__link.link(href="/messenger") Назад к чатам`;
 
+const compileTemplate = compile(template);
+
 export default class Page500 extends Block {
   constructor(props: PageModel) {
     super({
@@ -17,6 +19,6 @@ export default class Page500 extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

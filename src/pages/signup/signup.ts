@@ -23,6 +23,8 @@ const template: string = `
     #button    
     #link`;
 
+const compileTemplate = compile(template);
+
 export default class SignUp extends Block {
   constructor(props: PageModel) {
     const events = {
@@ -156,6 +158,6 @@ export default class SignUp extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }

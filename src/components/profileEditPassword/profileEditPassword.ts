@@ -17,6 +17,8 @@ form.profile__form(name="profileEditPassword")
   #button
 #backLink`;
 
+const compileTemplate = compile(template);
+
 export default class ProfileEditPassword extends Block {
   constructor(props: PageModel) {
     const password = new Input({
@@ -102,6 +104,6 @@ export default class ProfileEditPassword extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }
