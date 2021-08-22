@@ -8,12 +8,8 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.use(express.static(`${__dirname}/dist`));
+app.use(express.static(__dirname + '/dist'));
 
-app.get("/", (request, response) => {
-  response.sendFile("index.html");
-});
-
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+app.listen(PORT, function() {
+  console.log(`App listening on port ${PORT}!`);
 });
