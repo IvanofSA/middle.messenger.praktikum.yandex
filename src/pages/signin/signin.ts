@@ -67,6 +67,7 @@ export default class SignIn extends Block {
                         authAPI
                             .signIn(data)
                             .then(() => {
+                                console.log('ale')
                                 router.go("/messenger");
                             })
                             .catch((err) => {
@@ -88,18 +89,6 @@ export default class SignIn extends Block {
             ...props,
             events,
         });
-    }
-
-    componentDidMount(): void {
-        authAPI
-            .getUserInfo()
-            .then((data) => {
-                console.log(data)
-                router.go("/messenger");
-            })
-            .catch((er) => {
-                console.error(er);
-            });
     }
 
     render(): string {

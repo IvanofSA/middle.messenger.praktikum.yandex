@@ -80,7 +80,11 @@ export default class HTTPTransport {
       xhr.open(method, url);
       xhr.onload = function () {
         if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.response));
+          try {
+            resolve(JSON.parse(xhr.response));
+          } catch (e) {
+            resolve(xhr.response)
+          }
         } else {
           reject(new Error(xhr.status.toString()));
         }
