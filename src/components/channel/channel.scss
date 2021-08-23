@@ -1,14 +1,22 @@
 .channel {
-  display: grid;
-  grid-template-areas:
+  display: block;
+  width: 100%;
+  padding: 2px 0;
+  border-top: 1px solid var(--color-light-gray);
+
+  &__container {
+    display: grid;
+    grid-template-areas:
     "avatar name time"
     "avatar message missed";
-  grid-template-columns: 45px 1fr 30px;
-  grid-gap: 10px;
-  width: 100%;
-  margin: 2px 0;
-  padding: 12px 10px;
-  cursor: pointer;
+    grid-template-columns: 45px 1fr 30px;
+    grid-gap: 10px;
+    width: 100%;
+    margin: 2px 0;
+    padding: 12px 10px;
+    cursor: pointer;
+  }
+
 
   &.active {
     background-color: var(--color-light-blue);
@@ -16,8 +24,8 @@
 
   &__avatar {
     grid-area: avatar;
-    width: 47px;
-    height: 47px;
+    width: 34px;
+    height: 34px;
   }
 
   &__name {

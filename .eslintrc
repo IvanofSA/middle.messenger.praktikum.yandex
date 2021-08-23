@@ -1,7 +1,8 @@
 {
 	"env": {
 		"browser": true,
-		"es2021": true
+		"es2021": true,
+		"jest": true
 	},
 	"extends": [
 		"xo",
@@ -24,8 +25,9 @@
 		"no-param-reassign": 0,
 		"class-methods-use-this": 0,
 		"no-underscore-dangle": 0,
-		"no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+		"no-unused-vars": "off",
 		"max-params": [2, 4],
+		"camelcase": "off",
 		"prettier/prettier": ["error"]
 	}
 }

@@ -1,5 +1,5 @@
 import { compile } from "pug";
-import Block from "../../utils/Block";
+import Block from "../../utils/Block/Block";
 import "./input.scss";
 import InputModel from "./input.model";
 import { validation } from "../../utils/validate";
@@ -9,10 +9,13 @@ const template: string = `
    label(for=id).input-component__label=label
    span.input-component__message=error`;
 
+const compileTemplate = compile(template);
+
 export default class Input extends Block {
   constructor(props: InputModel) {
     const events = {
       blur: {
+        eventName: "blur",
         tagEvent: "input",
         callback: (e: Event) => {
           const element = e.target as HTMLInputElement;
@@ -31,6 +34,7 @@ export default class Input extends Block {
         },
       },
       focus: {
+        eventName: "focus",
         tagEvent: "input",
         callback: () => {},
       },
@@ -44,6 +48,6 @@ export default class Input extends Block {
   }
 
   render(): string {
-    return compile(template)(this.props);
+    return compileTemplate(this.props);
   }
 }
