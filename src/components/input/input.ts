@@ -20,6 +20,7 @@ export default class Input extends Block {
         callback: (e: Event) => {
           const element = e.target as HTMLInputElement;
           this.props.value = element.value;
+          // @ts-ignore
           const { messageError, value } = validation(element);
           if (value) {
             this.setProps({

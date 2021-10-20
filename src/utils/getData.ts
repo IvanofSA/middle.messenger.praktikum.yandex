@@ -1,13 +1,11 @@
-export const getData = (form: HTMLElement) => {
+export const getData = (form: HTMLFormElement) => {
   const result = {};
   if (!form) {
     return result;
   }
 
-  const elem = form.elements;
-  for (let i = 0; i < elem.length; i++) {
-    result[elem[i].name] = elem[i].value;
-  }
-
-  return result;
+  // @ts-ignore
+  return form.elements.map(
+    (elem: HTMLFormElement, ind: string) => elem[ind].value
+  );
 };

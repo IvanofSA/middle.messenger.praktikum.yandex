@@ -5,8 +5,12 @@ const template = `- for (var i = 0; i < countChannels; i++)
      div(id="channelCard-"+i)
 `;
 
+type Props = {
+  [key: string]: any;
+};
+
 export default class ChannelList extends Block {
-  constructor(props) {
+  constructor(props: Props = {}) {
     super({
       tagName: "ul",
       classNames: ["menu__list"],

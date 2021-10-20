@@ -13,7 +13,7 @@ interface IOptions {
   withCredentials?: boolean;
 }
 
-function queryStringify(data): string {
+function queryStringify(data: any): string {
   if (data === undefined || typeof data !== "object") {
     throw new Error("error data");
   }
@@ -35,7 +35,7 @@ export default class HTTPTransport {
 
   get(url: string, options: IOptions = {}): Promise<XMLHttpRequest> {
     const { data } = options;
-    url = data ? queryStringify(data) : url;
+    url = data ? queryStringify(options?.data) : url;
     return this.request(
       `${this._host}${url}`,
       { ...options, method: METHODS.GET },
@@ -83,7 +83,7 @@ export default class HTTPTransport {
           try {
             resolve(JSON.parse(xhr.response));
           } catch (e) {
-            resolve(xhr.response)
+            resolve(xhr.response);
           }
         } else {
           reject(new Error(xhr.status.toString()));

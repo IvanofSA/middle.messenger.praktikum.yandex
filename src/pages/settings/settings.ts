@@ -18,9 +18,18 @@ const template: string = `
     else
         #profile`;
 
+interface User {
+  avatar?: string;
+  phone: string;
+  second_name: string;
+  first_name: string;
+  login: string;
+  email: string;
+}
+
 export default class Settings extends Block {
   type: string;
-  user: {};
+  user: User;
 
   constructor(props: PageModel) {
     const profile = new Profile({});
@@ -31,7 +40,7 @@ export default class Settings extends Block {
       editLink: {
         eventName: "click",
         tagEvent: ".profile__link_edit",
-        callback: (e) => {
+        callback: (e: Event) => {
           e.preventDefault();
           this.setProps({
             type: "edit",
@@ -42,7 +51,7 @@ export default class Settings extends Block {
       passLink: {
         eventName: "click",
         tagEvent: ".profile__link_passwords",
-        callback: (e) => {
+        callback: (e: Event) => {
           e.preventDefault();
           this.setProps({
             type: "password",
@@ -63,16 +72,18 @@ export default class Settings extends Block {
       ...props,
     });
     this.type = "";
-    this.user = {};
+    this.user = {} as User;
   }
 
-  setUserData({
-    inputEmail,
-    inputLogin,
-    inputFirstName,
-    inputSecondName,
-    inputPhone,
-  } = {}) {
+  setUserData(children: any): void {
+    const {
+      inputEmail,
+      inputLogin,
+      inputFirstName,
+      inputSecondName,
+      inputPhone,
+    } = children;
+
     inputEmail.setProps({
       value: this.user.email,
     });
@@ -95,16 +106,13 @@ export default class Settings extends Block {
       .getUserInfo()
       .then((payload) => {
         const user = payload;
-        this.user = { ...user };
-        const { avatar, second_name, first_name } = user;
-        const { profileAvatar, profile } = this.props.children;
-
-        profileAvatar.setProps({
+        this.user = { ...user } as User;
+        const { avatar, second_name, first_name } = this.user;
+        this.props.children?.profileAvatar.setProps({
           src: avatar,
           text: `${first_name} ${second_name}`,
         });
-
-        this.setUserData(profile.props.children);
+        this.setUserData(this.props.children?.profile.props.children);
       })
       .catch((err) => {
         console.error(err);

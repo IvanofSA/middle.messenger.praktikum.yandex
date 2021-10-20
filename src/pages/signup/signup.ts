@@ -31,12 +31,17 @@ export default class SignUp extends Block {
       signup: {
         eventName: "submit",
         tagEvent: "form",
-        callback: (e) => {
+        callback: (e: Event) => {
           e.preventDefault();
 
-          const isValid = multiValidate(e.target, "signup");
+          const target = e.target as HTMLFormElement;
+          console.log(target);
+
+          const isValid = multiValidate(target, "signup");
+          console.log(isValid);
+
           if (isValid) {
-            const data = new FormData(e.target);
+            const data = new FormData(target);
             data.delete("repeatPassword");
             authAPI
               .signUp(data)

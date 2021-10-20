@@ -140,12 +140,13 @@
   }
 
   &__avatar {
-    .avatar-component{
+    .avatar-component {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       align-items: center;
     }
+
     .avatar-component__img {
       width: 34px;
       height: 34px;
@@ -193,7 +194,7 @@
 
   &__footer {
     display: grid;
-    grid-template-columns: 30px 1fr 30px;
+    grid-template-columns: 1fr 30px;
     grid-gap: 10px;
     align-content: center;
     justify-content: space-between;

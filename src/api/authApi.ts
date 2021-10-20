@@ -1,23 +1,10 @@
 import BaseAPI from "./baseApi";
-
-type SignUpRequest = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  password: string;
-  phone: string;
-};
-
-type SignInRequest = {
-  login: string;
-  password: string;
-};
+import convertFormData from "../utils/convertFormdata";
 
 class AuthApi extends BaseAPI {
-  signUp(formData: SignUpRequest): Promise<object> {
+  signUp(formData: Record<string, any>): Promise<object> {
     const options = {
-      data: JSON.stringify(Object.fromEntries(formData)),
+      data: JSON.stringify(convertFormData(formData)),
       headers: {
         "Content-Type": "application/json",
       },
@@ -25,9 +12,9 @@ class AuthApi extends BaseAPI {
     return this.http.post("/signup", options);
   }
 
-  signIn(formData: SignInRequest): Promise<object> {
+  signIn(formData: Record<string, any>): Promise<object> {
     const options = {
-      data: JSON.stringify(Object.fromEntries(formData)),
+      data: JSON.stringify(convertFormData(formData)),
       headers: {
         "Content-Type": "application/json",
       },

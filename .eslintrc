@@ -25,6 +25,7 @@
 		"no-param-reassign": 0,
 		"class-methods-use-this": 0,
 		"no-underscore-dangle": 0,
+		"no-constructor-return": 0,
 		"no-unused-vars": "off",
 		"max-params": [2, 4],
 		"camelcase": "off",

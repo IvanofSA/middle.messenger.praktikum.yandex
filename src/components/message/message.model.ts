@@ -1,6 +1,6 @@
 export default interface MessageModel {
-  position?: "their" | "your";
-  message: string;
-  time: string;
-  status?: "check" | "uncheck";
+  message: string | number;
+  time: string | number;
+  status: string | number;
+  position?: string;
 }

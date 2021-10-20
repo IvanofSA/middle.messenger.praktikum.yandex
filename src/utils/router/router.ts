@@ -1,10 +1,9 @@
-import Block from "../Block/Block";
 import { Route } from "../route/route";
 
 export class Router {
-  routes: Route[] = [];
+  routes: Route[] | undefined;
   history: History;
-  _currentRoute: Route | null;
+  _currentRoute: Route | undefined | null;
   _rootQuery = "app";
   static __instance: Router;
 
@@ -21,15 +20,15 @@ export class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: Block): this {
-    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
-    this.routes.push(route);
+  use(pathname: string, view: any): this {
+    const route = new Route(pathname, view, { rootQuery: this._rootQuery });
+    this.routes?.push(route);
     return this;
   }
 
   start(): void {
-    window.onpopstate = (event: PopStateEvent) => {
-      this._onRoute(event.currentTarget.location.pathname);
+    window.onpopstate = () => {
+      this._onRoute(document.location.pathname);
     };
 
     this._onRoute(window.location.pathname);
@@ -38,7 +37,8 @@ export class Router {
   _onRoute(pathname: string): void {
     const route = this.getRoute(pathname);
     if (!route) {
-      return;
+      this.go("/404");
+      window.location.href = "/404";
     }
 
     if (this._currentRoute) {
@@ -46,7 +46,7 @@ export class Router {
     }
 
     this._currentRoute = route;
-    route.render(route, pathname);
+    route?.render();
   }
 
   go(pathname: string): void {
@@ -62,7 +62,7 @@ export class Router {
     history.forward();
   }
 
-  getRoute(pathname: string): Route {
-    return <Route>this.routes.find((route) => route.match(pathname));
+  getRoute(pathname: string): Route | undefined {
+    return this.routes?.find((route) => route.match(pathname));
   }
 }

@@ -1,18 +1,5 @@
 import BaseAPI from "./baseApi";
-
-type userRequest = {
-  firstName: string;
-  secondName: string;
-  displayName: string;
-  login: string;
-  email: string;
-  phone: string;
-};
-
-type changePasswordRequest = {
-  oldPassword: string;
-  newPassword: string;
-};
+import convertFormData from "../utils/convertFormdata";
 
 class UsersApi extends BaseAPI {
   searchUser(login: string): Promise<object> {
@@ -25,9 +12,9 @@ class UsersApi extends BaseAPI {
     return this.http.post("/search", options);
   }
 
-  changeUserPassword(formData: changePasswordRequest): Promise<object> {
+  changeUserPassword(formData: Record<string, any>): Promise<object> {
     const options = {
-      data: JSON.stringify(Object.fromEntries(formData)),
+      data: JSON.stringify(convertFormData(formData)),
       headers: {
         "Content-Type": "application/json",
       },
@@ -35,9 +22,9 @@ class UsersApi extends BaseAPI {
     return this.http.put("/password", options);
   }
 
-  changeUserProfile(formData: userRequest): Promise<object> {
+  changeUserProfile(formData: Record<string, any>): Promise<object> {
     const options = {
-      data: JSON.stringify(Object.fromEntries(formData)),
+      data: JSON.stringify(convertFormData(formData)),
       headers: {
         "Content-Type": "application/json",
       },
