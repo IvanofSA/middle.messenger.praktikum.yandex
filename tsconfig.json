@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "target": "es2016",
+    "outDir": "./dist",
+    "target": "es5",
     "declaration": false,
-    "module": "commonjs",
+    "esModuleInterop": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noEmitOnError": false
   },
-  "exclude": ["node_modules"]
+  "lib": ["es2019.object", "es2019", "dom"],
+  "exclude": ["dist", "node_modules", "src/**/*.spec.ts"]
 }

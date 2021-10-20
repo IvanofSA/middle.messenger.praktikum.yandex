@@ -1,10 +1,11 @@
-import { Router } from "../src/utils/router/router";
-import SignIn from "../src/pages/signin";
-import SignUp from "../src/pages/signup";
-import Chats from "../src/pages/chats";
-import Settings from "../src/pages/settings";
-import Page404 from "../src/pages/page404";
-import Page500 from "../src/pages/page500";
+import { Router } from "./utils/router/router";
+import SignIn from "./pages/signin";
+import SignUp from "./pages/signup";
+import Chats from "./pages/chats";
+import Settings from "./pages/settings";
+import Page404 from "./pages/page404";
+import Page500 from "./pages/page500";
+import "./style.scss";
 
 const router = new Router("#app");
 router

@@ -5,7 +5,7 @@ export default interface ChannelModel {
   time?: string;
   missed?: string;
   avatarId?: string;
-  avatarSrc?: string;
+  src?: string;
   avatarName?: string;
   classNames?: Array<string>;
   children?: { [key: string]: HTMLElement };

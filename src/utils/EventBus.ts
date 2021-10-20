@@ -25,7 +25,7 @@ export default class EventBus {
     );
   }
 
-  emit(event: string | number, ...args) {
+  emit(event: string | number, ...args: any) {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }

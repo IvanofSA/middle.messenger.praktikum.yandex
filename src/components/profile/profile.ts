@@ -97,7 +97,7 @@ export default class Profile extends Block {
       logout: {
         eventName: "click",
         tagEvent: ".profile__link_logout",
-        callback: (e) => {
+        callback: (e: Event) => {
           e.preventDefault();
           authAPI.logOut();
           router.go("/");

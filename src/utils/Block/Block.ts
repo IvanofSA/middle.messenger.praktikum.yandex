@@ -1,11 +1,19 @@
 import EventBus from "../EventBus";
+
+type Events = {
+  [key: string]: {
+    eventName: string;
+    tagEvent: string;
+    callback: (...args: any) => unknown;
+  };
+};
 type Props = {
-  children?: object;
+  children?: { [key: string]: any };
   tagName?: string;
   classNames?: Array<string>;
   attribute?: Record<string, string>;
-  events?: Record<string, Function>;
-  [key: string]: unknown | object;
+  events?: Events;
+  [key: string]: any;
 };
 
 export default abstract class Block {
@@ -62,11 +70,13 @@ export default abstract class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  componentDidMount() {
-    return this.element as HTMLElement;
-  }
+  componentDidMount(): void {}
 
-  private _componentDidUpdate(oldProps, newProps) {
+  // ComponentDidMount() {
+  //   return this.element as HTMLElement;
+  // }
+
+  private _componentDidUpdate(oldProps: unknown, newProps: unknown) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
@@ -99,16 +109,16 @@ export default abstract class Block {
     const block = this.render();
     const { children, tagName } = this.props;
     this._element.innerHTML = block;
-
-    if (Boolean(this._element.content) && tagName === "template") {
-      this._element = this._element.content.cloneNode(true)
-        .firstChild as HTMLElement;
+    const { content } = this._element as any;
+    if (Boolean(content) && tagName === "template") {
+      this._element = content.cloneNode(true).firstChild as HTMLElement;
     }
 
     if (children) {
       Object.keys(children).forEach((key) => {
         const _id = `#${key}`;
         const template = this._element.querySelector(_id);
+        // @ts-ignore
         template?.replaceWith(children[key].getContent());
       });
     }
@@ -149,14 +159,14 @@ export default abstract class Block {
     });
   }
 
-  private _makePropsProxy(props) {
+  private _makePropsProxy(props: Props) {
     const self = this;
     return new Proxy(props, {
-      get(target, prop) {
+      get: (target, prop: string) => {
         const result = target[prop];
         return typeof result === "function" ? result.bind(target) : result;
       },
-      set(target, prop, value) {
+      set: (target, prop: string, value) => {
         target[prop] = value;
         self.eventBus.emit(Block.EVENTS.FLOW_CDU, target);
         return true;

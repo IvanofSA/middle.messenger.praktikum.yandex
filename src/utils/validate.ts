@@ -1,9 +1,10 @@
-const checkValide = (pattern: string, value: string): boolean => {
+const checkValide = (pattern: RegExp, value: string): boolean => {
   const result = pattern ? pattern.test(String(value).toLowerCase()) : value;
-  return result;
+  return <boolean>result;
 };
 
 export const validation = (element: HTMLElement) => {
+  // @ts-ignore
   const { type, value } = element;
   let pattern;
   switch (type) {
@@ -43,28 +44,31 @@ export const checkPasswords = (password: string, passwordRepeat: string) =>
 const getInputs = (form: HTMLFormElement) =>
   Array.from(form.elements).filter((el) => el.tagName !== "BUTTON");
 
-const validInputs = (inputs) => {
+const validInputs = (inputs: Element[]): any => {
   const result = {};
   inputs.forEach((input) => {
+    // @ts-ignore
     result[input.name] = validation(input);
   });
   return result;
 };
 
-const setErrors = (form, valids): void => {
+const setErrors = (form: HTMLFormElement, valids: any): void => {
   for (const key in valids) {
-    const parent = form[key].parentNode;
-    const message = parent.querySelector(".input-component__message");
-    if (valids[key].value) {
-      parent.classList.remove("error");
-    } else {
-      message.textContent = valids[key].messageError;
-      parent.classList.add("error");
+    if ({}.hasOwnProperty.call(valids, key)) {
+      const parent = form[key].parentNode;
+      const message = parent.querySelector(".input-component__message");
+      if (valids[key].value) {
+        parent.classList.remove("error");
+      } else {
+        message.textContent = valids[key].messageError;
+        parent.classList.add("error");
+      }
     }
   }
 };
 
-const checkValid = (valids) => {
+const checkValid = (valids: any) => {
   let result = true;
   for (const key in valids) {
     if (!valids[key].value) {

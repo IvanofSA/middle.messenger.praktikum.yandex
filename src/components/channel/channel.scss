@@ -7,8 +7,8 @@
   &__container {
     display: grid;
     grid-template-areas:
-    "avatar name time"
-    "avatar message missed";
+      "avatar name time"
+      "avatar message missed";
     grid-template-columns: 45px 1fr 30px;
     grid-gap: 10px;
     width: 100%;
@@ -16,7 +16,6 @@
     padding: 12px 10px;
     cursor: pointer;
   }
-
 
   &.active {
     background-color: var(--color-light-blue);

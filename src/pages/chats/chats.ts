@@ -19,9 +19,6 @@ const template: string = `
   aside.chat-menu.menu
     .menu__container
       a.menu__profile(href="/settings") Профиль
-      form.home-page__form-search.menu__search.search
-        button.search__btn
-        input.search__input(type="text", placeholder="Поиск")
       form.menu__add.home-page__form-add
         #addChatInput
         #buttonAddChat
@@ -42,16 +39,15 @@ const template: string = `
                     button.messages__submit.messages__submit-user
             #chatsBody
             .messages__footer
-                button.messages__file
                 input.messages__input(type="text" placeholder="Сообщение")
                 button.messages__submit.messages__submit-send`;
 export default class Chats extends Block {
-  activeChat: {};
-  usersChat: {};
-  socketMessage: [];
+  activeChat: Record<string, any>;
+  usersChat: Record<string, any>;
+  socketMessage: Record<string, string | number>[];
   userId: number | null;
-  typeEventUser: string;
-  tooltip: HTMLElement | null;
+  typeEventUser: string | undefined;
+  tooltip: HTMLElement | null | undefined;
   chats: [];
 
   constructor(props: PageModel) {
@@ -78,24 +74,26 @@ export default class Chats extends Block {
           eventName: "click",
           tagEvent: ".channel",
           callback: (e: Event) => {
-            const id = Number(e.currentTarget.dataset.id);
+            const target = e.currentTarget as HTMLElement;
+            const id = Number(target.dataset.id);
             this.props.isShow = true;
             chatsAPI
               .getChatUsers(id)
               .then((payload) => {
-                const users = payload;
-                users.forEach((user) => {
+                const users = payload as [];
+                users.forEach((user: Record<string, any>) => {
                   this.usersChat[`${user.id}`] = { ...user };
                 });
               })
               .then(() => this.getChatToken(id))
-              .then(({ token }) => {
+              .then(({ token }: any) => {
                 this.setHeaderChat(id);
+                /* eslint-disable no-new */
                 new WebSocketMessage(
+                  this.createMessageList.bind(this),
                   this.userId,
                   id,
-                  token,
-                  this.createMessageList.bind(this)
+                  token
                 );
               });
           },
@@ -110,9 +108,10 @@ export default class Chats extends Block {
         showTooltip: {
           eventName: "click",
           tagEvent: ".messages__btn",
-          callback: (e) => {
-            this.typeEventUser = e.currentTarget.dataset.type;
-            this.tooltip = e.currentTarget
+          callback: (e: Event) => {
+            const element = e.currentTarget as HTMLElement;
+            this.typeEventUser = element.dataset.type;
+            this.tooltip = element
               .closest(".messages__head")
               ?.querySelector(".messages__tooltip");
             this.tooltip?.classList.add("show");
@@ -121,16 +120,18 @@ export default class Chats extends Block {
         addUser: {
           eventName: "click",
           tagEvent: ".messages__submit-user",
-          callback: (e) => {
+          callback: (e: Event) => {
             e.preventDefault();
-            const input = e.currentTarget.previousSibling;
+            const element = e.currentTarget as HTMLInputElement;
+
+            const input = element.previousSibling as HTMLInputElement;
             const { value } = input;
             const { id } = this.activeChat;
             if (value.length > 0) {
               usersAPI
                 .searchUser(value)
                 .then((payload) => {
-                  const users = payload;
+                  const users = payload as Record<string, any>;
                   switch (this.typeEventUser) {
                     case "add":
                       chatsAPI
@@ -160,14 +161,15 @@ export default class Chats extends Block {
             }
           },
         },
-        addChannel: {
+        submit: {
           eventName: "submit",
           tagEvent: ".home-page__form-add",
-          callback: (e) => {
+          callback: (e: Event) => {
             e.preventDefault();
-            const isValid = multiValidate(e.target, "chats");
+            const target = e.target as HTMLFormElement;
+            const isValid = multiValidate(target, "chats");
             if (isValid) {
-              const data = new FormData(e.target);
+              const data = new FormData(target);
               chatsAPI
                 .createChat(data)
                 .then(() => {
@@ -182,16 +184,17 @@ export default class Chats extends Block {
         search: {
           eventName: "submit",
           tagEvent: ".home-page__form-search",
-          callback: (e) => {
+          callback: (e: Event) => {
             e.preventDefault();
           },
         },
         send: {
           eventName: "click",
           tagEvent: ".messages__submit-send",
-          callback: (e) => {
+          callback: (e: Event) => {
             e.preventDefault();
-            const input = e.currentTarget.previousSibling;
+            const element = e.target as HTMLInputElement;
+            const input = element.previousSibling as HTMLInputElement;
             const { value } = input;
             if (value.length > 0) {
               this.sendMessage(value);
@@ -227,18 +230,19 @@ export default class Chats extends Block {
       });
   }
 
-  setHeaderChat(id: string) {
-    const chat = this.chats.filter((chat) => chat.id === id)[0];
-    const { avatarHead } = this.props.children;
+  setHeaderChat(id: string | number) {
+    const { avatar, title } = this.chats.filter(
+      (chat: { [key: string]: any }) => chat.id === id
+    )[0];
 
-    avatarHead.setProps({
-      src: chat.avatar,
-      text: chat.title,
+    this.props.children?.avatarHead.setProps({
+      src: avatar,
+      text: title,
     });
   }
 
   sendMessage(message: string) {
-    new WebSocketMessage().send(message);
+    new WebSocketMessage(this.createMessageList.bind(this)).send(message);
   }
 
   createMessageList(data: []) {
@@ -246,7 +250,7 @@ export default class Chats extends Block {
     this.socketMessage = Array.isArray(dataReverse)
       ? dataReverse
       : [...this.socketMessage, dataReverse];
-    const messagesList = {};
+    const messagesList: Record<string, Block> = {};
 
     this.socketMessage.forEach((message, index) => {
       const { content, is_read, time, user_id } = message;
@@ -254,16 +258,16 @@ export default class Chats extends Block {
 
       /* ToDo вынести обработку даты в отдельную утилиту */
       const configMsg = {
-        position: user_id === this.userId ? "your" : "their",
         message: content,
         time: `${date.getHours()}:${
           date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
         }`,
         status: is_read,
+        position: user_id === this.userId ? "your" : "their",
       };
       messagesList[`message-${index}`] = new Message(configMsg);
 
-      const { chatsBody } = this.props.children;
+      const { chatsBody } = this.props.children as Record<string, Block>;
 
       chatsBody.setProps({
         children: { ...chatsBody.props.children, ...messagesList },
@@ -275,13 +279,25 @@ export default class Chats extends Block {
   getChats() {
     chatsAPI
       .getChats()
-      .then((payload) => {
-        const channels = payload;
+      .then((payload: {}) => {
+        const channels = payload as [];
         this.chats = [...channels];
-        const channelCards = {};
+        const channelCards: Record<string, Block> = {};
         channels.forEach((channel, index) => {
           this.activeChat = channel;
-          const { last_message, avatar, title, unread_count, id } = channel;
+          const {
+            last_message,
+            avatar,
+            title,
+            unread_count,
+            id,
+          }: {
+            last_message: { [key: string]: any };
+            avatar: string;
+            title: string;
+            unread_count: string;
+            id: string;
+          } = channel;
           const date = new Date(last_message?.time);
           const channelConfig = {
             id,
@@ -298,7 +314,8 @@ export default class Chats extends Block {
           };
           channelCards[`channelCard-${index}`] = new Channel(channelConfig);
         });
-        const { channelList } = this.props.children;
+
+        const { channelList } = this.props.children as Record<string, Block>;
         channelList.setProps({
           children: { ...channelList.props.children, ...channelCards },
           countChannels: channels.length,
@@ -313,9 +330,12 @@ export default class Chats extends Block {
     authAPI
       .getUserInfo()
       .then((payload) => {
+        // @ts-ignore
         const { id } = payload;
         this.userId = id;
         this.getChats();
+
+        console.log("tut");
       })
       .catch((err) => {
         console.error(err);

@@ -6,8 +6,12 @@ const template = `
     div(id="message-"+i)
 `;
 
+type Props = {
+  [key: string]: any;
+};
+
 export default class ChatBody extends Block {
-  constructor(props) {
+  constructor(props: Props = {}) {
     super({
       tagName: "div",
       classNames: ["messages__body"],

@@ -69,12 +69,13 @@ export default class ProfileEditPassword extends Block {
       submit: {
         eventName: "submit",
         tagEvent: "form",
-        callback: (e) => {
+        callback: (e: Event) => {
           e.preventDefault();
-          const isValid = multiValidate(e.target, "passwords");
+          const element = e.target as HTMLFormElement;
+          const isValid = multiValidate(element, "passwords");
 
           if (isValid) {
-            const data = new FormData(e.target);
+            const data = new FormData(element);
             data.delete("repeatPassword");
             usersAPI
               .changeUserPassword(data)

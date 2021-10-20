@@ -1,8 +1,5 @@
 import BaseAPI from "./baseApi";
-
-type createChat = {
-  title: string;
-};
+import convertFormData from "../utils/convertFormdata";
 
 class ChatsApi extends BaseAPI {
   getChats(): Promise<object> {
@@ -14,9 +11,9 @@ class ChatsApi extends BaseAPI {
     return this.http.get("/", options);
   }
 
-  createChat(formData: createChat): Promise<object> {
+  createChat(formData: Record<string, any>): Promise<object> {
     const options = {
-      data: JSON.stringify(Object.fromEntries(formData)),
+      data: JSON.stringify(convertFormData(formData)),
       headers: {
         "Content-Type": "application/json",
       },
@@ -42,7 +39,7 @@ class ChatsApi extends BaseAPI {
     return this.http.put(`/users`, options);
   }
 
-  deleteUsersChat(userId: number, chatId: number): Promise<object> {
+  deleteUsersChat(userId: number | string, chatId: number): Promise<object> {
     const options = {
       data: JSON.stringify({ usersIds: [userId], chatId }),
       headers: {

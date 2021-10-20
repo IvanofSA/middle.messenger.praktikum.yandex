@@ -93,12 +93,13 @@ export default class ProfileEdit extends Block {
       submit: {
         tagEvent: "form",
         eventName: "submit",
-        callback: (e) => {
+        callback: (e: Event) => {
           e.preventDefault();
-          const isValid = multiValidate(e.target, "profile");
+          const element = e.target as HTMLFormElement;
+          const isValid = multiValidate(element, "profile");
 
           if (isValid) {
-            const data = new FormData(e.target);
+            const data = new FormData(element);
             data.append("display_name", "");
             usersAPI
               .changeUserProfile(data)
